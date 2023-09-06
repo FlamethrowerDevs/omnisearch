@@ -1,0 +1,12 @@
+{% extends "common.html" %}
+
+{% block content %}
+<div class="searchdiv">
+    <form action="/search" method="get">
+        <input type="text" name="query" id="queryinput" placeholder="Find files...">
+        <br>
+        <input type="hidden" name="config" id="configinput">
+        <center><input type="submit" value="Search!"></center>
+    </form>
+</div>
+{% endblock %}

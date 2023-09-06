@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omnisearch</title>
+    <link rel="stylesheet" href="https://cdn.skypack.dev/-/holiday.css@v0.9.5-Jl4gV7y2zMps6H5ZtJC8/dist=es2020,mode=raw/dist/holiday.css" type="text/css">
+    <link rel="stylesheet" href="/static/searchpage.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header><h1>Omnisearch</h1><span>Find files anywhere on the Interwebz!</span></header>
+    <br>
+    <nav></nav>
+    <br>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
