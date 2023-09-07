@@ -19,6 +19,16 @@ modules = {
             "name": "Video",
             "desc": "Finds video files",
             "func": filter_generictypes.video_filter
+        },
+        {
+            "name": "Audio",
+            "desc": "Finds audio files",
+            "func": filter_generictypes.audio_filter
+        },
+        {
+            "name": "Warez",
+            "desc": "Finds warez, archives, and disk images",
+            "func": filter_generictypes.warez_filter
         }
     ],
     "sorters": []
