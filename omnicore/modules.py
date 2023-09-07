@@ -1,5 +1,5 @@
 from . import searcher_localarchive
-from . import filter_ddlalive
+from . import filter_generictypes
 
 modules = {
     "searchers": [
@@ -11,9 +11,14 @@ modules = {
     ],
     "filters": [
         {
-            "name": "DDL Alive",
-            "desc": "Makes sure DDL links are alive",
-            "func": filter_ddlalive.filter_func
+            "name": "Text",
+            "desc": "Finds books or text files",
+            "func": filter_generictypes.book_filter
+        },
+        {
+            "name": "Video",
+            "desc": "Finds video files",
+            "func": filter_generictypes.video_filter
         }
     ],
     "sorters": []
