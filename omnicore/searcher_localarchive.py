@@ -24,7 +24,7 @@ for file in os.listdir("./archives"):
                 continue
             try:
                 print("Sending request to " + line.replace("\n", "") + "...")
-                r = requests.get(line, stream=True, timeout=5)
+                r = requests.get(line, stream=True, timeout=10)
                 if not r.status_code in range(200, 300):
                     print("Removing " + dir + "...")
                     f.close()
