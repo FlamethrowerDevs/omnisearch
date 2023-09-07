@@ -7,12 +7,17 @@ function search(query, config){
         response.json().then(function(data){
             console.log("Got results:", data);
             // display time
+            var html = "";
             time = performance.now() - time;
-            html = "<ul>";
-            for (var i = 0; i < data.length; i++){
-                html += "<li><a href='"+data[i]+"'>"+data[i]+"</a></li>";
+            if (data.length != 0) {
+                html = "<ul>";
+                for (var i = 0; i < data.length; i++){
+                    html += "<li><a href='"+data[i]+"'>"+data[i]+"</a></li>";
+                }
+                html += "</ul><br><p>Search took "+time+"ms</p>";
+            } else {
+                html = "<p>No results found. How is that even possible?</p>"
             }
-            html += "</ul><br><p>Search took "+time+"ms</p>";
             document.getElementById("resultdiv").remove();
             document.getElementById("results").innerHTML = html;
         });
