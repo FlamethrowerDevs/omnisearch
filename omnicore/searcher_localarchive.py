@@ -40,7 +40,7 @@ searchpath = "./archives"
 if not os.path.exists(searchpath):
     os.makedirs(searchpath)
 for file in os.listdir(searchpath):
-    if file.endswith(".txt"):
+    if file.endswith(".txt") and not file.startswith("_"):
         print("Loading " + file + "...")
         with open(os.path.join("./archives", file), "r", errors='replace') as f:
             for line in f.read().splitlines():
