@@ -3,6 +3,7 @@ from . import searcher_eyedex
 from . import searcher_yts
 from . import searcher_repacks
 from . import searcher_odindexers
+from . import searcher_libgen
 from . import filter_generictypes
 from . import sorter_generic
 
@@ -30,8 +31,13 @@ modules = {
         },
         {
             "name": "Opendirectory Indexes",
-            "desc": "Searches FilePursuit and odcrawler for all sorts of files found in unprotected 'Open Directories'.",
+            "desc": "Searches FilePursuit and odcrawler for all sorts of files found in unprotected open directories.",
             "func": searcher_odindexers.search_func
+        },
+        {
+            "name": "Library Genesis",
+            "desc": "Searches Library Genesis, more commonly referred to as libgen, for books, scholarly articles, and more.",
+            "func": searcher_libgen.search_func
         }
     ],
     "filters": [

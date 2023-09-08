@@ -49,11 +49,9 @@ def odcrawler(query, limit=10):
     target = "https://search.odcrawler.xyz/elastic/links/_search"
     r = requests.post(target, json=payload)
     j = r.json()
-    print("Took " + str(j["took"]) + "ms")
     if j["timed_out"]:
-        print("Timed out!")
+        print("[searcher_odindexers] Timed out!")
         return
-    print("Found " + str(len(j["hits"]["hits"])) + " results")
     results = []
     total = len(j["hits"]["hits"])
     for i in j["hits"]["hits"]:

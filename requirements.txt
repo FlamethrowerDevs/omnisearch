@@ -2,3 +2,4 @@ flask
 fuzzyset
 requests
 beautifulsoup4
+libgen-api
