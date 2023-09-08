@@ -6,6 +6,9 @@ def fuzzy_sort(results, config, query):
     for result in results:
         fuzzset.add(result)
     final = []
-    for result in fuzzset.get(query):
-        final.append(result[1])
+    try:
+        for result in fuzzset.get(query):
+            final.append(result[1])
+    except:
+        pass
     return final
