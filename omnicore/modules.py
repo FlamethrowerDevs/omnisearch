@@ -74,5 +74,12 @@ modules = {
             "desc": "Sorts results by how closely they match the search query",
             "func": sorter_generic.fuzzy_sort
         }
+    ],
+    "forcedfilters": [
+        {
+            "name": "remove tpb empty res",
+            "desc": "removes empty tpb responses with magnet:?xt=urn:btih:0000000000000000000000000000000000000000",
+            "func": sorter_generic.remove_empty_tpb
+        }
     ]
 }

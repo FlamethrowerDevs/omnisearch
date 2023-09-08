@@ -1,0 +1,7 @@
+Place your previous odsearcher archives here.
+
+The accepted format is one URL per line - magnet links work but are not
+reccomended due to the way the search algorithm finds results. You can
+also place locally downloaded Eyedex archives here, althogh the JSON
+will cause false positives and the initialization process will be much
+lengthier.

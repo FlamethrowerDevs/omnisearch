@@ -33,4 +33,6 @@ def dosearch(query, config):
         filtered_results = _filter["func"](filtered_results, config)
     for sorter in user_sorters:
         filtered_results = sorter["func"](filtered_results, config, query) # todo: multi-layer sorting based on relevance and weightings
+    for forcedfilter in modules.modules["forcedfilters"]:
+        filtered_results = forcedfilter["func"](filtered_results)
     return filtered_results

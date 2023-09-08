@@ -18,3 +18,15 @@ def fuzzy_sort(results, config, query):
         missing = list(set(results) - set(final))
         final += missing
     return final
+
+def remove_empty_tpb(results):
+    final = []
+    for res in results:
+        if "magnet:?xt=urn:btih:0000000000000000000000000000000000000000" in res:
+            print("[sorter_generic] Got empty TPB result")
+            continue
+        if res.strip() == "":
+            print("[sorter_generic] Found empty result")
+            continue
+        final.append(res)
+    return final
