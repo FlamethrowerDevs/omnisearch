@@ -11,7 +11,7 @@ for file in os.listdir("./archives"):
             # send a get request and abort after recieving headers
             tries = 0
             maxtries = 100
-            while not line.startswith("magnet:?"):
+            while line.startswith("magnet:?"):
                 line = f.readline()
                 if not line:
                     tries = maxtries + 1 # fixme: really? we can do better than this
