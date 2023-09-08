@@ -6,11 +6,19 @@ print("[searcher_odindexers] Testing if OD indexers are reachable...")
 try:
     r = requests.get("https://filepursuit.com/", headers={"User-Agent": "Omnicore-odindexers/0.1"})
     if r.status_code in range(200, 300):
-        print("[searcher_odindexers] All good!")
+        print("[searcher_odindexers] All good for Filepursuit!")
         offline = False
     else:
         print("[searcher_odindexers] Filepursuit is not reachable! Operation disabled.")
         offline = True
+    if not offline:
+        r = requests.get("https://odcrawler.xyz/", headers={"User-Agent": "Omnicore-odindexers/0.1"})
+        if r.status_code in range(200, 300):
+            print("[searcher_odindexers] All good for odcrawler!")
+            offline = False
+        else:
+            print("[searcher_odindexers] Filepursuit is not reachable! Operation disabled.")
+            offline = True
 except:
     print("[searcher_odindexers] Something didn't work. Operation disabled.")
     offline = True

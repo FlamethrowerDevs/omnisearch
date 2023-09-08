@@ -4,6 +4,7 @@ from . import searcher_yts
 from . import searcher_repacks
 from . import searcher_odindexers
 from . import searcher_libgen
+from . import searcher_torrents
 from . import filter_generictypes
 from . import sorter_generic
 
@@ -38,6 +39,11 @@ modules = {
             "name": "Library Genesis",
             "desc": "Searches Library Genesis, more commonly referred to as libgen, for books, scholarly articles, and more.",
             "func": searcher_libgen.search_func
+        },
+        {
+            "name": "Torrent Trackers",
+            "desc": "Searches The Pirate Bay, 1337x, Limetorrents, and TorrentGalaxy for magnet links to torrents for all sorts of content.",
+            "func": searcher_torrents.search_func
         }
     ],
     "filters": [

@@ -3,3 +3,4 @@ fuzzyset
 requests
 beautifulsoup4
 libgen-api
+1337x
