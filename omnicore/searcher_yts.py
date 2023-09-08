@@ -17,7 +17,7 @@ except:
 def search_func(query, config):
     if offline:
         return []
-    url = f"https://yts.mx/api/v2/list_movies.json?query_term={urllib.parse.quote(query)}&limit=50&"
+    url = f"https://yts.mx/api/v2/list_movies.json?query_term={urllib.parse.quote(query).replace('%20', ' ')}&limit=50&"
     r = requests.get(url, headers={"User-Agent": "Omnicore-YTS/0.1"})
     json = r.json()
     try:
