@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.parse
 
-pagecount = 5 # 5 pages of results
+pagecount = 3 # 3-5 pages of results works best
 
 print("[searcher_eyedex] Testing if the Eyedex is reachable...")
 try:
