@@ -6,7 +6,7 @@ pagecount = 5 # 5 pages of results
 
 print("[searcher_eyedex] Testing if the Eyedex is reachable...")
 try:
-    r = requests.get("https://the-eye.eu/public/Books/")
+    r = requests.get("https://www.eyedex.org/", headers={"User-Agent": "Omnicore-Eyedex/0.1"})
     if r.status_code in range(200, 300):
         print("[searcher_eyedex] All good!")
         offline = False
@@ -27,7 +27,7 @@ def search_page(query, pagenum):
     results = []
     for result in soup.find_all(name="tr")[1:]:
         url = result.find_all("td")[2].find("nobr").find("a").get("href")
-        results.append(url)
+        results.append(urllib.parse.unquote(url)) # decode for better fuzzy match later
     return results
 
 def search_func(query, config):

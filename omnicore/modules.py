@@ -2,6 +2,7 @@ from . import searcher_localarchive
 from . import filter_generictypes
 from . import sorter_generic
 from . import searcher_eyedex
+from . import searcher_yts
 
 modules = {
     "searchers": [
@@ -14,6 +15,11 @@ modules = {
             "name": "The Eyedex",
             "desc": "Scans the Eyedex, an indexed version of the-eye.eu and other open directories on the web, totaling about 900tb. Great for books, popular media, other more obscure content, and NFOs.",
             "func": searcher_eyedex.search_func
+        },
+        {
+            "name": "YTS/YIFY",
+            "desc": "Scans yts.mx for movie torrents.",
+            "func": searcher_yts.search_func
         }
     ],
     "filters": [
