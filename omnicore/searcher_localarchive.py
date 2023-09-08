@@ -48,8 +48,11 @@ for file in os.listdir(searchpath):
             f.close()
 
 def search_func(query, config):
-    results = fuzzset.get(query)
-    final = []
-    for result in results:
-        final.append(str(result[1]))
-    return final
+    try:
+        results = fuzzset.get(query)
+        final = []
+        for result in results:
+            final.append(str(result[1]))
+        return final
+    except:
+        return []
