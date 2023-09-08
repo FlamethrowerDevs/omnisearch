@@ -18,7 +18,7 @@ modules = {
         },
         {
             "name": "YTS/YIFY",
-            "desc": "Scans yts.mx for movie torrents.",
+            "desc": "Scans yts.mx for torrents. Great for movies and TV shows in low file sizes. Long live the 2gb movie!",
             "func": searcher_yts.search_func
         }
     ],
