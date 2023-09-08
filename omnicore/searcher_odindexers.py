@@ -69,5 +69,8 @@ def search_func(query, config):
         final += odcrawler(query)
     except:
         pass
+    actual_final = []
+    for url in final:
+        actual_final.append(url.replace("%20", " "))
     print("[searcher_odindexers] Found", len(final), "results")
-    return final
+    return actual_final
