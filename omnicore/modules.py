@@ -1,8 +1,9 @@
 from . import searcher_localarchive
-from . import filter_generictypes
-from . import sorter_generic
 from . import searcher_eyedex
 from . import searcher_yts
+from . import searcher_repacks
+from . import filter_generictypes
+from . import sorter_generic
 
 modules = {
     "searchers": [
@@ -20,6 +21,11 @@ modules = {
             "name": "YTS/YIFY",
             "desc": "Scans yts.mx for torrents. Great for movies and TV shows in low file sizes. Long live the 2gb movie!",
             "func": searcher_yts.search_func
+        },
+        {
+            "name": "Game Repackers",
+            "desc": "Searches DODI and FitGirl repacks of games, which take the filesize of the download significantly lower.",
+            "func": searcher_repacks.search_func
         }
     ],
     "filters": [
