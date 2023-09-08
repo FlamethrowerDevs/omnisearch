@@ -1,6 +1,8 @@
 import json
 from . import modules
 
+moduleobject = modules.modules
+
 def dosearch(query, config):
     print("search for:", query, "and conf", config)
     try:
@@ -13,15 +15,15 @@ def dosearch(query, config):
     print("Finding active modules...")
     for searcher in config["searchers"]:
         for _searcher in modules.modules["searchers"]:
-            if searcher == _searcher["name"]:
+            if searcher == _searcher["name"] or searcher == _searcher["id"]:
                 user_searchers.append(_searcher)
     for _filter in config["filters"]:
         for __filter in modules.modules["filters"]:
-            if _filter == __filter["name"]:
+            if _filter == __filter["name"] or _filter == __filter["id"]:
                 user_filters.append(__filter)
     for sorter in config["sorters"]:
         for _sorter in modules.modules["sorters"]:
-            if sorter == _sorter["name"]:
+            if sorter == _sorter["name"] or sorter == _sorter["id"]:
                 user_sorters.append(_sorter)
     results = []
     for searcher in user_searchers:
@@ -33,6 +35,7 @@ def dosearch(query, config):
         filtered_results = _filter["func"](filtered_results, config)
     for sorter in user_sorters:
         filtered_results = sorter["func"](filtered_results, config, query) # todo: multi-layer sorting based on relevance and weightings
-    for forcedfilter in modules.modules["forcedfilters"]:
-        filtered_results = forcedfilter["func"](filtered_results)
+    if not config.get("ignore_forced"):
+        for forcedfilter in modules.modules["forcedfilters"]:
+            filtered_results = forcedfilter["func"](filtered_results)
     return filtered_results

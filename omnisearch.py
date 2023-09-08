@@ -1,12 +1,26 @@
 from flask import Flask, render_template, request, jsonify
 import json
-from omnicore import dosearch
+from omnicore import dosearch, moduleobject
+
+print("[omnisearch] Creating listings for modules...")
+options_searchers = []
+options_filters = []
+options_sorters = []
+searchers =  moduleobject["searchers"]
+filters = moduleobject["filters"]
+sorters = moduleobject["sorters"]
+for module in searchers:
+    options_searchers.append({"id": module["id"], "name": module["name"]})
+for module in filters:
+    options_filters.append({"id": module["id"], "name": module["name"]})
+for module in sorters:
+    options_sorters.append({"id": module["id"], "name": module["name"]})
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.html", options_searchers=options_searchers, options_filters=options_filters, options_sorters=options_sorters)
 
 @app.route('/search')
 def search():

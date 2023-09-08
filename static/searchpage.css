@@ -10,3 +10,8 @@
 span.big {
     font-size: 1.6rem;    
 }
+
+#advancedoptions{
+    width: 66% !important;
+    text-align: center;
+}

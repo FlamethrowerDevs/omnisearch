@@ -6,6 +6,34 @@
         <input type="text" name="query" id="queryinput" placeholder="Find files...">
         <br>
         <input type="hidden" name="config" id="configinput">
+        <center>
+            <details id="advancedoptions">
+                <summary>Advanced Options</summary>
+                <p><b>WARNING</b>: It's not my problem if you break something. Have fun :)</p>
+                <fieldset>
+                    <legend>Searchers</legend>
+                    {% for option in options_searchers %}
+                    <label style="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
+                    <input type="checkbox" id="advanced_{{ option['id'] }}" checked>
+                    {% endfor %}
+                </fieldset>
+                <fieldset>
+                    <legend>Filters</legend>
+                    {% for option in options_filters %}
+                    <label s tyle="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
+                    <input type="checkbox" id="advanced_{{ option['id'] }}">
+                    {% endfor %}
+                </fieldset>
+                <fieldset>
+                    <legend>Sorters</legend>
+                    {% for option in options_sorters %}
+                    <label style="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
+                    <input type="checkbox" id="advanced_{{ option['id'] }}" checked>
+                    {% endfor %}
+                </fieldset>
+            </details>
+        </center>
+        <br>
         <center><input type="submit" value="Search!"></center>
     </form>
 </div>
