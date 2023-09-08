@@ -6,7 +6,7 @@ def dosearch(query, config):
     try:
         config = json.loads(config)
     except:
-        config = {"sorters": [], "filters": [], "searchers": ["Local Archive"]} # default config for when i break things
+        config = {"sorters": ["Fuzzy Match"], "filters": [], "searchers": ["The Eyedex", "Local Archive"]} # default config for when i break things
     user_searchers = []
     user_filters   = []
     user_sorters   = []
@@ -32,5 +32,5 @@ def dosearch(query, config):
     for _filter in user_filters:
         filtered_results = _filter["func"](filtered_results, config)
     for sorter in user_sorters:
-        filtered_results = sorter["func"](filtered_results, config) # todo: multi-layer sorting based on relevance and weightings
+        filtered_results = sorter["func"](filtered_results, config, query) # todo: multi-layer sorting based on relevance and weightings
     return filtered_results

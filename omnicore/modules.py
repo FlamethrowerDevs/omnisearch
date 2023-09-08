@@ -1,5 +1,7 @@
 from . import searcher_localarchive
 from . import filter_generictypes
+from . import sorter_generic
+from . import searcher_eyedex
 
 modules = {
     "searchers": [
@@ -7,6 +9,11 @@ modules = {
             "name": "Local Archive",
             "desc": "Scans local text files containing URLs seperated by newlines. Good for use with pre-existing legacy odsearcher archives.",
             "func": searcher_localarchive.search_func
+        },
+        {
+            "name": "The Eyedex",
+            "desc": "Scans the Eyedex, an indexed version of the-eye.eu and other open directories on the web, totaling about 900tb. Great for books, popular media, other more obscure content, and NFOs.",
+            "func": searcher_eyedex.search_func
         }
     ],
     "filters": [
@@ -31,5 +38,11 @@ modules = {
             "func": filter_generictypes.warez_filter
         }
     ],
-    "sorters": []
+    "sorters": [
+        {
+            "name": "Fuzzy Match",
+            "desc": "Sorts results by how closely they match the search query",
+            "func": sorter_generic.fuzzy_sort
+        }
+    ]
 }
