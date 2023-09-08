@@ -2,6 +2,7 @@ from . import searcher_localarchive
 from . import searcher_eyedex
 from . import searcher_yts
 from . import searcher_repacks
+from . import searcher_odindexers
 from . import filter_generictypes
 from . import sorter_generic
 
@@ -26,6 +27,11 @@ modules = {
             "name": "Game Repackers",
             "desc": "Searches DODI and FitGirl repacks of games, which take the filesize of the download significantly lower.",
             "func": searcher_repacks.search_func
+        },
+        {
+            "name": "Opendirectory Indexes",
+            "desc": "Searches FilePursuit and odcrawler for all sorts of files found in unprotected 'Open Directories'.",
+            "func": searcher_odindexers.search_func
         }
     ],
     "filters": [
