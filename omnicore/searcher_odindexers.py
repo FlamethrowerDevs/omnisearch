@@ -2,6 +2,19 @@ import urllib
 import requests
 from bs4 import BeautifulSoup
 
+print("[searcher_odindexers] Testing if OD indexers are reachable...")
+try:
+    r = requests.get("https://filepursuit.com/", headers={"User-Agent": "Omnicore-odindexers/0.1"})
+    if r.status_code in range(200, 300):
+        print("[searcher_odindexers] All good!")
+        offline = False
+    else:
+        print("[searcher_odindexers] Filepursuit is not reachable! Operation disabled.")
+        offline = True
+except:
+    print("[searcher_odindexers] Something didn't work. Operation disabled.")
+    offline = True
+
 class FilePursuitType:
     VIDEO = "video"
     AUDIO = "audio"
@@ -48,10 +61,13 @@ def odcrawler(query, limit=10):
     return results
 
 def search_func(query, config):
+    if offline:
+        return []
     final = []
     try:
         final += filepursuit(query, FilePursuitType.ALL)
         final += odcrawler(query)
     except:
         pass
+    print("[searcher_odindexers] Found", len(final), "results")
     return final

@@ -6,7 +6,7 @@ def dosearch(query, config):
     try:
         config = json.loads(config)
     except:
-        config = {"sorters": ["Fuzzy Match"], "filters": [], "searchers": ["The Eyedex", "Local Archive", "YTS/YIFY", "Game Repackers"]} # default config for when i break things
+        config = {"sorters": ["Fuzzy Match"], "filters": [], "searchers": ["The Eyedex", "Local Archive", "YTS/YIFY", "Game Repackers", "Opendirectory Indexes"]} # default config for when i break things
     user_searchers = []
     user_filters   = []
     user_sorters   = []
