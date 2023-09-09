@@ -2,5 +2,5 @@ flask
 fuzzyset
 requests
 beautifulsoup4
-libgen-api
+git+https://github.com/HENRYMARTIN5/libgen-api.git
 1337x
