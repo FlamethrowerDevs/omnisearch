@@ -1,21 +1,60 @@
 # Extending Omnisearch's Functionality
 
-Omnisearch works through a multitude of modules which all interface with different services. There are three types of modules that all influence search results:
+Omnisearch works through a multitude of omnicore modules which all interface with different services. There are three types of modules that all influence search results:
 
-## Module Types
+## Developing a Module
 
-### Searcher Modules
+### Module Structure
 
-These scrape sites, use APIs, and otherwise find the files. Some might operate on local indexes (like the odsearcher module), and others (like the filepursuit module) might operate on public sites that have limited or no API.
+Every module is a simple Python file that contains at least one function, which can be named practically anything. This function must accept the following arguments, depending on what it is your module does:
 
-### Filter Modules
+- For searchers, the function must accept a string, `query`, and a dictionary, `config`. The function must return a list of URLs (as strings), `results`.
+- For filters, the function must accept a list of URLs (as strings), `results`, and a dictionary, `config`. The function must return a list of URLs (as strings), `results`.
+- For sorters, the function must accept a list of URLs (as strings), `results`, a dictionary, `config`, and a string, `query`. The function must return a list of URLs (as strings), `results`.
 
-These modules filter out irrelevent results, such as those in incorrect languages, below a certain resolution threshold (for video and pictures), or otherwise sub-optimal files.
+For example, a searcher module for a publicly available API might look like this:
 
-### Sorter Modules
+```python
+import requests
 
-These modules sort the final results from the searcher and filter modules into a more user-friendly format, pushing better results to the top of the results list in the WebUI.
+def search_func(query, config):
+    results = []
+    response = requests.get('https://api.example.com/search', params={'q': query})
+    for result in response.json():
+        results.append(result['url'])
+    return results
+```
 
-## Managing Modules
+### Module Configuration
 
-Modules can be enabled or disabled at search-time by the user to further fine-tune search results. At least one searcher module must be enabled at all times, but other than that you can disable all other filtering.
+Once you've created an omnicore module, you just have to add it to the `modules.py` file (and optionally, the `__init__.py` file to make it a default option). An entry in `modules.py` could look like this:
+
+```python
+from . import searcher_mycoolsearcher
+
+# ...
+
+{
+    "name": "My Cool Searcher",
+    "id"  : "coolsearcher",
+    "desc": "Calls api.example.com for results.",
+    "func": searcher_mycoolsearcher.search_func
+},
+```
+
+To add the module to the default options, add an entry in the respective list in `__init__.py`:
+
+```python
+import json
+from . import modules
+
+# ...
+
+def dosearch(query, config):
+    print("[omnicore] Searching for: " + query)
+    try:
+        config = json.loads(config)
+    except:
+        config = {"sorters": ["..."], "filters": ["..."], "searchers": ["...", "My Cool Searcher"]} # default config
+# ...
+```
