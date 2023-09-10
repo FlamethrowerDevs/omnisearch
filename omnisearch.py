@@ -20,7 +20,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("index.html", options_searchers=options_searchers, options_filters=options_filters, options_sorters=options_sorters)
+    return render_template("index.html", options_searchers=options_searchers, options_filters=options_filters, options_sorters=options_sorters, options_json=json.dumps({"searchers": options_searchers, "filters": options_filters, "sorters": options_sorters}))
 
 @app.route('/search')
 def search():

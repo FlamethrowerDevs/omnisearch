@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="searchdiv">
-    <form action="/search" method="get">
+    <form action="/search" method="get" onsubmit="generate_config();">
         <input type="text" name="query" id="queryinput" placeholder="Find files...">
         <br>
         <input type="hidden" name="config" id="configinput">
@@ -13,22 +13,22 @@
                 <fieldset>
                     <legend>Searchers</legend>
                     {% for option in options_searchers %}
-                    <label style="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
                     <input type="checkbox" id="advanced_{{ option['id'] }}" checked>
+                    <label style="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
                     {% endfor %}
                 </fieldset>
                 <fieldset>
                     <legend>Filters</legend>
                     {% for option in options_filters %}
-                    <label s tyle="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
                     <input type="checkbox" id="advanced_{{ option['id'] }}">
+                    <label style="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
                     {% endfor %}
                 </fieldset>
                 <fieldset>
                     <legend>Sorters</legend>
                     {% for option in options_sorters %}
-                    <label style="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
                     <input type="checkbox" id="advanced_{{ option['id'] }}" checked>
+                    <label style="display: unset" for="advanced_{{ option['id'] }}">{{ option['name'] }}</label>
                     {% endfor %}
                 </fieldset>
             </details>
@@ -37,4 +37,11 @@
         <center><input type="submit" value="Search!"></center>
     </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const options_json = {{ options_json|safe }};
+</script>
+<script src="/static/genconf.js"></script>
 {% endblock %}

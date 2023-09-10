@@ -10,7 +10,7 @@ def add_weighted_results(results, weights):
     return sorted_items
 
 def dosearch(query, config):
-    print("search for:", query, "and conf", config)
+    print("[omnicore] Searching for: " + query)
     try:
         config = json.loads(config)
     except:
@@ -18,7 +18,7 @@ def dosearch(query, config):
     user_searchers = []
     user_filters   = []
     user_sorters   = []
-    print("Finding active modules...")
+    print("[omnicore] Finding active modules...")
     for searcher in config["searchers"]:
         for _searcher in modules.modules["searchers"]:
             if searcher == _searcher["name"] or searcher == _searcher["id"]:
@@ -41,7 +41,8 @@ def dosearch(query, config):
         filtered_results = _filter["func"](filtered_results, config)
     for sorter in user_sorters:
         filtered_results = sorter["func"](filtered_results, config, query) # todo: multi-layer sorting based on relevance and weightings
-    if not config.get("ignore_forced"):
+    if not config.get("ignore_forced"): # super-duper-secret dev feature
         for forcedfilter in modules.modules["forcedfilters"]:
             filtered_results = forcedfilter["func"](filtered_results)
+    print("[omnicore] Search completed with " + str(len(filtered_results)) + " results.")
     return filtered_results
