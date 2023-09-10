@@ -3,6 +3,12 @@ from . import modules
 
 moduleobject = modules.modules
 
+def add_weighted_results(results, weights):
+    sorted_results = results
+    sorted_results.sort(key=lambda x: sum(weights[i] * x[1] for i, x in enumerate(sorted_results)), reverse=True)
+    sorted_items = [item[0] for item in sorted_results]
+    return sorted_items
+
 def dosearch(query, config):
     print("search for:", query, "and conf", config)
     try:
