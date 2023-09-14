@@ -96,10 +96,31 @@ modules = {
     ]
 }
 
+print("[omnicore] Creating untrustworthy match list...")
+
 scamdomains = [
     {
         "match": "steamunlocked",
         "reason": "Slow speeds, reuploads - viruses haven't been found here, but be careful",
         "weight": 0.3
+    },
+    {
+        "match": "unlockedgames",
+        "reason": "Unknown site, reputability mediocre at best",
+        "weight": 0.45
+    },
+    {
+        "match": "gogunlocked",
+        "reason": "Slow speeds, reuploads - viruses haven't been found here, but be careful",
+        "weight": 0.3
     }
 ]
+
+megathread_untrustworthy = ["crohasit", "aimhaven", "apunkagames", "descargagame", "game3rb", "igg-games", "nexus-games", "nosteamgames", "oceanofgames", "repack-games", "steam-repacks", "worldof-pcgames"]
+
+for url in megathread_untrustworthy:
+    scamdomains.append({
+        "match": url,
+        "reason": "Megathread untrustworthy",
+        "weight": 0.35
+    })

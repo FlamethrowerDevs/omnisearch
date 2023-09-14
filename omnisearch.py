@@ -24,7 +24,8 @@ def index():
 
 @app.route('/search')
 def search():
-    return render_template("search.html")
+    legacy = True if request.args.get("legacy") else False
+    return render_template("search.html", legacy=legacy)
 
 @app.route('/api/search')
 def api_search():

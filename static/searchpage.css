@@ -15,3 +15,7 @@ span.big {
     width: 66% !important;
     text-align: center;
 }
+
+header{
+    z-index: 9999999999999;
+}

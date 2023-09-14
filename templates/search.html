@@ -19,5 +19,9 @@
 {% endblock %}
 
 {% block scripts %}
+{% if legacy %}
+<script src="/static/search-legacy.js"></script>
+{% else %}
 <script src="/static/search.js"></script>
+{% endif %}
 {% endblock %}
