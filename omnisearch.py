@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import json
-from omnicore import dosearch, enhancedsearch, moduleobject
+from omnicore import dosearch, enhancedsearch, moduleobject, getchunk
 
 print("[omnisearch] Creating listings for modules...")
 options_searchers = []
@@ -33,6 +33,10 @@ def api_search():
 @app.route('/api/enhanced_search')
 def api_enhanced_search():
     return jsonify(enhancedsearch(request.args.get("query"), request.args.get("config")))
+
+@app.route('/api/get_chunk/<chunk>')
+def get_chunk(chunk):
+    return jsonify(getchunk(chunk))
 
 if __name__ == "__main__":
     app.jinja_env.auto_reload = True

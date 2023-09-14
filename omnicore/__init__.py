@@ -1,9 +1,13 @@
 import json
 from urllib.parse import unquote
 import requests
+import threading
+import time
 from . import modules
 
 moduleobject = modules.modules
+
+chunks = []
 
 def add_weighted_results(results, weights):
     sorted_results = results
@@ -60,10 +64,10 @@ def fix_weird_format(text):
     return text.replace("\n", " ").replace("\r", " ").replace("\t", " ").replace("<br>", " ").strip()
 
 def combined_extract(url):
-    r = requests.get(url, stream=True, timeout=6) # idk how long to wait - how slow are we expecting results to be anyway?
+    r = requests.get(url, stream=True, timeout=2) # idk how long to wait - how slow are we expecting results to be anyway?
     title = "Unknown"
     if not r.status_code in range(200, 300):
-        title = "Non-valid status code" + str(r.status_code)
+        title = "Non-valid status code " + str(r.status_code)
     else:
         if "text/html" in r.headers["content-type"]:
             try:
@@ -74,7 +78,7 @@ def combined_extract(url):
             title = url
     desc = "Unknown"
     if not r.status_code in range(200, 300):
-        desc = "Non-valid status code" + str(r.status_code)
+        desc = "Non-valid status code " + str(r.status_code)
     else:
         if "text/html" in r.headers["content-type"]:
             try:
@@ -104,8 +108,60 @@ def evaluate_trust(url):
                 break
     return trustworthiness, reason
 
-def enhancedsearch(query, config):
-    results, responsible = dosearch(query, config, return_responsible=True)
+def chunk_thread(chunk_id):
+    i = 0
+    for chunk in chunks:
+        if chunk[0] == chunk_id:
+            break
+        i += 1
+    chunk = chunks[i]
+    results = enhancedsearch(chunk[1], chunk[2], chunk[3]+chunk[4], chunk[4], responsible=chunk[5], results=chunk[6])
+    # to make up for the fact that the array could have changed in the meantime, we'll check the time
+    newindex = -1
+    for i, _chunk in enumerate(chunks):
+        if _chunk[0] == chunk[0]:
+            newindex = i
+            break
+    if newindex == -1:
+        print("[omnicore] Chunk " + str(chunk_id) + " was removed before it could be downloaded.")
+        return
+    chunks[newindex].append(results)
+    print("[omnicore] Chunk " + str(chunk_id) + " enhanced.")
+
+
+def getchunk(chunk_id):
+    res = []
+    for chunk in chunks:
+        if chunk[0] == chunk_id:
+            if len(chunk) < 8:
+                return {"error": "Chunk not ready"}
+            res = [chunk[0], chunk[1], chunk[7]]
+            break
+    if len(res) == 0:
+        return {"error": "Chunk not found"}
+    # delete the chunk
+    i = 0
+    for chunk in chunks:
+        if chunk[0] == chunk_id:
+            break
+        i += 1
+    del chunks[i]
+    return res
+
+def queue_chunk(query, config, startpos, blocksize, results, responsible):
+    # queues a chunk of results to be downloaded in the background, which can be requested later by the client
+    # this is done to speed up the search process, as the client can request the first 10 results while the next 10 are being downloaded
+    # returns the new chunk id
+    tstamp = str(time.time())
+    chunks.append([tstamp, query, config, startpos, blocksize, responsible, results])
+    threading.Thread(target=chunk_thread, args=(tstamp,)).start()
+    return tstamp
+
+def enhancedsearch(query, config, startpos=0, blocksize=10, results=[], responsible=[]):
+    if len(results) == 0 or len(responsible) == 0:
+        results, responsible = dosearch(query, config, return_responsible=True)
+    else:
+        print("[omnicore] Using cached results (chunked search?)")
     print("[omnicore] Enhancing results...")
     enhanced_results = [] # these are in a different format, and the old search function is left intact for backwards compatibility (see below)
     # each entry in the results contains:
@@ -116,11 +172,32 @@ def enhancedsearch(query, config):
     # 4: trustworthiness score
     # 5: trustworthiness reason
 
-    for result in results:
+    done = False
+
+    for i in range(0, blocksize):
+        try:
+            result = results[i+startpos]
+        except:
+            done = True
+            break
         if result.startswith("magnet:?"):
             enhanced_results.append([result, responsible[results.index(result)], extract_magnet_title(result), "Magnet link", 0.5, "Magnet links are not easily verifiable. Many are safe to use, just don't execute any files you download from them unless you're sure of what you're doing."])
         else:
             print("[omnicore] Enhancing " + result + "...")
-            trustworthiness, reason = evaluate_trust(result) # evaluate_trust is done offline, it just checks for scam domains and such
-            title, desc = combined_extract(result)
+            try:
+                trustworthiness, reason = evaluate_trust(result) # evaluate_trust is done offline, it just checks for scam domains and such
+                title, desc = combined_extract(result)
+            except:
+                trustworthiness = 0.5
+                reason = "Unable to evaluate trustworthiness"
+                title = result
+                desc = "Unable to fetch description"
             enhanced_results.append([result, responsible[results.index(result)], title, desc, trustworthiness, reason])
+    
+    if not done:
+        next_chunk_id = queue_chunk(query, config, startpos, blocksize, results, responsible)
+    else:
+        next_chunk_id = -1
+        print("[omnicore] No more results to enhance.")
+
+    return [enhanced_results, next_chunk_id]

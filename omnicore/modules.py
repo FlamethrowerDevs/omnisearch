@@ -95,3 +95,11 @@ modules = {
         }
     ]
 }
+
+scamdomains = [
+    {
+        "match": "steamunlocked",
+        "reason": "Slow speeds, reuploads - viruses haven't been found here, but be careful",
+        "weight": 0.3
+    }
+]
