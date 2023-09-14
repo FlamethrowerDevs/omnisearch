@@ -4,7 +4,8 @@
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    width: 500px;
+    width: 650px;
+    overflow: scroll;
 }
 
 span.big {
@@ -17,5 +18,11 @@ span.big {
 }
 
 header{
+    z-index: 9999999999999;
+}
+
+div.headercontainer {
+    background-color:#202124;
+    text-align: center;
     z-index: 9999999999999;
 }

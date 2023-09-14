@@ -64,7 +64,7 @@ def fix_weird_format(text):
     return text.replace("\n", " ").replace("\r", " ").replace("\t", " ").replace("<br>", " ").strip()
 
 def combined_extract(url):
-    r = requests.get(url, stream=True, timeout=2) # idk how long to wait - how slow are we expecting results to be anyway?
+    r = requests.get(url, stream=True, timeout=0.5) # idk how long to wait - how slow are we expecting results to be anyway?
     title = "Unknown"
     if not r.status_code in range(200, 300):
         title = "Non-valid status code " + str(r.status_code)
